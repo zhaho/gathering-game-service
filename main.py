@@ -27,7 +27,9 @@ logger.info(f'Using version: {version}')
 class game_info:
     def __init__(self, object_id):
         self.object_id = object_id
-        self.response = requests.get(os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+self.object_id+"?stats=1") # Get information of game through BGG API
+        API_URL = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+self.object_id+"?stats=1"
+        logger.info(f"Using: {API_URL}")
+        self.response = requests.get(API_URL) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
         self.json_object = json.loads(self.json_object_string) # Convert JSON to LIST
