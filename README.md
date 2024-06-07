@@ -1,8 +1,11 @@
 # Gathering Game Service
 This service keeps all the games updated with gamedata.
 
+# Prereq
+* Docker Compose
+
 ## Installation.
-* Set environment variables in docker-compose.yml file
+* Set environment variables in a docker-compose.yml file
 ```yaml
 ---
 ---
