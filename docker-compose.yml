@@ -5,7 +5,7 @@ services:
   game:
     image: ghcr.io/zhaho/gathering-game-service:main
     build: .
-    restart: always
-    command: python main.py
+    restart: on-failure
     env_file:
       - .env
+    command: python main.py
