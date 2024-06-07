@@ -2,7 +2,7 @@
 This service keeps all the games updated with gamedata.
 
 # Prerequisites
-* Docker Compose
+* docker-compose
 
 ## Installation.
 * Set environment variables in a docker-compose.yml file
