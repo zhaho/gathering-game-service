@@ -1,7 +1,7 @@
 # Gathering Game Service
 This service keeps all the games updated with gamedata.
 
-# Prereq
+# Prerequisites
 * Docker Compose
 
 ## Installation.
@@ -27,6 +27,6 @@ services:
 
 ```
 Then all you have to do is to run:
-```
+```bash
 docker-compose up -d
 ```
