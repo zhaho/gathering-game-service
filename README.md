@@ -1,5 +1,5 @@
 # Gathering Game Service
-This service keeps all the games updated with gamedata.
+This service keeps all the games within Gathering updated with game data.
 
 # Prerequisites
 * docker-compose
@@ -7,7 +7,6 @@ This service keeps all the games updated with gamedata.
 ## Installation.
 * Set environment variables in a docker-compose.yml file
 ```yaml
----
 ---
 version: "3"
 
