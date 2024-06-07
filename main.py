@@ -239,7 +239,7 @@ def update_games(api_url):
             #Send information to API
 
             try:
-                url = os.getenv('GATHERING_API_URL')+"/"+object_id
+                url = os.environ['GATHERING_API_URL']+"/"+object_id
                 response = requests.put(url,data=json.dumps(gameJson), headers=headers,timeout=5)
                 if(response.status_code == 200):
                     logger.info(game.title() + ' successfully updated')
