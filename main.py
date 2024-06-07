@@ -27,6 +27,9 @@ logger.info(f'Using version: {version}')
 class game_info:
     def __init__(self, object_id):
         self.object_id = object_id
+        print(os.getenv('BGG_API_URL'))
+        print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
+        print(str(self.object_id))
         API_URL = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+str(self.object_id)+"?stats=1"
         logger.info(f"Using: {API_URL}")
         self.response = requests.get(API_URL) # Get information of game through BGG API
