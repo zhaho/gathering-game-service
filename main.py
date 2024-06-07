@@ -5,7 +5,7 @@ from sys import stdout
 from lookup import price_lookup
 
 # Variables
-version = "3.1"
+version = "3.2"
 load_dotenv()
 
 # Constants
@@ -27,7 +27,12 @@ logger.info(f'Using version: {version}')
 class game_info:
     def __init__(self, object_id):
         self.object_id = object_id
-        self.response = requests.get(os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+self.object_id+"?stats=1") # Get information of game through BGG API
+        print(os.getenv('BGG_API_URL'))
+        print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
+        print(str(self.object_id))
+        API_URL = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+str(self.object_id)+"?stats=1"
+        logger.info(f"Using: {API_URL}")
+        self.response = requests.get(API_URL) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
         self.json_object = json.loads(self.json_object_string) # Convert JSON to LIST
