@@ -27,7 +27,7 @@ logger.info(f'Using version: {version}')
 class game_info:
     def __init__(self, object_id):
         self.object_id = object_id
-        self.response = requests.get(os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+"/"+self.object_id+"?stats=1") # Get information of game through BGG API
+        self.response = requests.get(os.environ['BGG_API_URL']+os.environ['BGG_API_ENDPOINT_BOARDGAME']+"/"+self.object_id+"?stats=1") # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
         self.json_object = json.loads(self.json_object_string) # Convert JSON to LIST
@@ -155,7 +155,7 @@ class game_info:
 
     def preferred_players(self):
 
-        url = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+'/'+str(self.object_id)
+        url = os.environ['BGG_API_URL']+os.environ['BGG_API_ENDPOINT_BOARDGAME']+'/'+str(self.object_id)
 
         response = requests.get(url)
         root = ET.fromstring(response.content)
@@ -269,6 +269,6 @@ def update_games(api_url):
 
 if __name__ == "__main__":
     while True:
-        update_games(os.getenv('GATHERING_API_URL_NODATA'))
+        update_games(os.environ['GATHERING_API_URL_NODATA'])
         time.sleep(120)
         logger.info('wait done - check again')
