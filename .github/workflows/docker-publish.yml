@@ -28,6 +28,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          echo BGG_API_URL=${{ secrets.BGG_API_URL }} >> .env
+          echo BGG_API_ENDPOINT_BOARDGAME=${{ BGG_API_ENDPOINT_BOARDGAME.API_KEY }} >> .env
+          echo GATHERING_API_URL=${{ GATHERING_API_URL.API_KEY }} >> .env
+          echo GATHERING_API_URL_NODATA=${{ GATHERING_API_URL_NODATA.API_KEY }} >> .env
+          echo PRICE_LOOKUP_URL=${{ PRICE_LOOKUP_URL.API_KEY }} >> .env
+          echo LOG_DESTINATION=${{ LOG_DESTINATION.API_KEY }} >> .env
+          
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
       # https://github.com/docker/setup-buildx-action
