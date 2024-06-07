@@ -19,15 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create .env file
-        run: |
-          echo BGG_API_URL=${{ secrets.BGG_API_URL }} >> .env
-          echo BGG_API_ENDPOINT_BOARDGAME=${{ secrets.BGG_API_ENDPOINT_BOARDGAME }} >> .env
-          echo GATHERING_API_URL=${{ secrets.GATHERING_API_URL }} >> .env
-          echo GATHERING_API_URL_NODATA=${{ secrets.GATHERING_API_URL_NODATA }} >> .env
-          echo PRICE_LOOKUP_URL=${{ secrets.PRICE_LOOKUP_URL }} >> .env
-          echo LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} >> .env
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.0.0
 
