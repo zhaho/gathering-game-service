@@ -1,4 +1,4 @@
 # test_with_pytest.py
 
-def test_price_lookup_game_title():
+def test_price_lookup_game_title_testing():
     pass
