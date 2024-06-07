@@ -5,6 +5,11 @@ services:
   game_data:
     image: ghcr.io/zhaho/gathering-game-service:main
     restart: on-failure
-    env_file:
-      - .env
+    environment:
+      - BGG_API_URL=https://boardgamegeek.com/xmlapi
+      - BGG_API_ENDPOINT_BOARDGAME=/boardgame
+      - GATHERING_API_URL=http://zhaho.com/gathering/app/api
+      - GATHERING_API_URL_NODATA=https://zhaho.com/gathering/app/games/get_obj_without_data
+      - PRICE_LOOKUP_URL=https://bradspelspriser.se/item/search?search=
+      - LOG_DESTINATION=/var/log/bgg.log
     command: python main.py
