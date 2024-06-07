@@ -4,6 +4,13 @@ import xml.etree.ElementTree as ET
 from sys import stdout
 from lookup import price_lookup
 
+# Environment Variables Verification
+if not find_dotenv():
+    print(".env file not found")
+else:
+    load_dotenv()
+    print("Environment variables loaded")
+
 # Variables
 version = "3.0"
 load_dotenv()
