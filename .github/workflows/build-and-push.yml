@@ -7,10 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged }}
 
     steps:
     - uses: actions/checkout@v4
     
     - name: Build the Docker image
-      if: ${{ github.event.pull_request.merged }}
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
