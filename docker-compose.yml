@@ -7,4 +7,5 @@ services:
     build: .
     restart: always
     command: python main.py
-    env_file: .env
+    env_file:
+      - .env
