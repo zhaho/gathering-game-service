@@ -1,0 +1,10 @@
+---
+version: "3"
+
+services:
+  game:
+    image: ghcr.io/zhaho/gathering-game-service:main
+    build: .
+    restart: always
+    command: python main.py
+    env_file: .env
