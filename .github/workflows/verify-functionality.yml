@@ -2,7 +2,8 @@ name: Verify Functionality
 
 on:
   push:
-    branches-ignore: [ "main" ]
+    branches-ignore:
+      - main
 
 jobs:
   build:
