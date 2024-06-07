@@ -5,7 +5,7 @@ from sys import stdout
 from lookup import price_lookup
 
 # Variables
-version = "3.1"
+version = "3.2"
 load_dotenv()
 
 # Constants
