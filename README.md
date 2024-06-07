@@ -1,5 +1,5 @@
 # Gathering Game Service
-This service keeps all the games updated with data.
+This service keeps all the games updated with gamedata.
 
 ## Installation
 * Setup .env file.
