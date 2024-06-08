@@ -1,15 +1,36 @@
-name: Build and Push
+name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_TOKEN }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build \
+          --build-arg BGG_API_URL=${{ secrets.BGG_API_URL }} \
+          --build-arg BGG_API_ENDPOINT_BOARDGAME=${{ secrets.BGG_API_ENDPOINT_BOARDGAME }} \
+          --build-arg GATHERING_API_URL=${{ secrets.GATHERING_API_URL }} \
+          --build-arg GATHERING_API_URL_NODATA=${{ secrets.GATHERING_API_URL_NODATA }} \
+          --build-arg PRICE_LOOKUP_URL=${{ secrets.PRICE_LOOKUP_URL }} \
+          --build-arg LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} \
+          -t ghcr.io/${{ github.repository_owner }}/gathering-game-service:main .
+        docker push ghcr.io/${{ github.repository_owner }}/gathering-game-service:main
