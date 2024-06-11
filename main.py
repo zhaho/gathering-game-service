@@ -30,9 +30,7 @@ class game_info:
         print(os.getenv('BGG_API_URL'))
         print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
         print(str(self.object_id))
-        API_URL = os.getenv('BGG_API_URL') + \
-            os.getenv('BGG_API_ENDPOINT_BOARDGAME') + \
-            "/" + str(self.object_id) + "?stats=1"
+        API_URL = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
         logger.info(f"Using: {API_URL}")
         self.response = requests.get(API_URL) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
@@ -49,10 +47,10 @@ class game_info:
             except:
                 title = self.json_object['boardgames']['boardgame']['name']['#text']
                 obj_len = 0
-           
+
             if obj_len > 2:
                 title = obj['#text']
-        
+
         return title
 
     def expansion(self):
@@ -71,7 +69,7 @@ class game_info:
                             for item in exp_obj:
                                 if '@objectid' in item:
                                     return int(item['@objectid'])
-                        else:    
+                        else:
                             return int(exp_obj['@objectid'])
                     else:
                         return 0
