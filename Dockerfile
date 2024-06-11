@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM alpine:3.20
 
 # Accept build arguments
 ARG BGG_API_URL
