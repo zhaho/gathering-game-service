@@ -19,27 +19,27 @@ print("Age: ",game.age())
 def test_valid():
     """Test to see if a game is stated as valid"""
     assert game.is_valid()
-        
+
 def test_titles():
     """Test to see if a title could be set properly"""
     assert len(game.title()) > 0
-    assert type(game.title()) == str
+    assert isinstance(game.title(), str)
 
 def test_categories():
     """Test to see if a category could be set properly"""
     assert len(game.category()) > 0
-    assert type(game.category()) == str
+    assert isinstance(game.category(), str)
 
 def test_mechanics():
     """Test to see if a mechanic could be set properly"""
     assert len(game.mechanic()) > 0
-    assert type(game.mechanic()) == str
+    assert isinstance(game.mechanic(), str)
 
 def test_bgg_rating():
     """Test to see if a rating could be set properly"""
     assert len(str(game.bgg_rating())) > 0
-    assert type(game.bgg_rating()) == int
+    assert isinstance(game.bgg_rating(), int)
 
 def test_expansion():
     """Test to see if a expansion could be set properly"""
-    assert type(game.expansion()) == int
+    assert isinstance(game.expansion(), int)
