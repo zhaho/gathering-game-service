@@ -7,16 +7,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def game_title(game_title):
+def game_title(g_title):
     """ Function for retrieving price based on game title """
     title_found = False
-    encode_url = urllib.parse.quote(game_title)
-    url = os.getenv("PRICE_LOOKUP_URL")+encode_url
+    encode_url = urllib.parse.quote(g_title)
+    url = os.getenv("PRICE_LOOKUP_URL") + encode_url
 
-    # retrieving data from URL
     web_url = urllib.request.urlopen(url)
 
-    # print data from URL
     data = web_url.read().decode("utf-8")
 
     # Parse the HTML content using BeautifulSoup
@@ -28,7 +26,7 @@ def game_title(game_title):
         title_element = item_div.find('span', class_='name')
         if title_element:
             title = title_element.find('a').text.strip()
-            if title == game_title:
+            if title == g_title:
                 title_found = True
 
     if title_found:

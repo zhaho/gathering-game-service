@@ -47,7 +47,7 @@ class GameInfo:
     def title(self):
         """Retrieves the title of the object id"""
         title_object = self.json_object['boardgames']['boardgame']['name']
-
+        title = None
         for obj in title_object:
             try:
                 obj_len = len(obj.keys())
