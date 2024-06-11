@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image for pytest
+      run: | 
+        docker build \
+          --build-arg BGG_API_URL=${{ secrets.BGG_API_URL }} \
+          --build-arg BGG_API_ENDPOINT_BOARDGAME=${{ secrets.BGG_API_ENDPOINT_BOARDGAME }} \
+          --build-arg GATHERING_API_URL=${{ secrets.GATHERING_API_URL }} \
+          --build-arg GATHERING_API_URL_NODATA=${{ secrets.GATHERING_API_URL_NODATA }} \
+          --build-arg PRICE_LOOKUP_URL=${{ secrets.PRICE_LOOKUP_URL }} \
+          --build-arg LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} \
+          -f Dockerfile.pytest -t pytest-container .
+
+    - name: Run pytest inside container with arguments
+      run: docker run pytest-container /app/tests -vvv
