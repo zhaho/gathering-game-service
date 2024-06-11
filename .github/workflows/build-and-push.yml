@@ -16,7 +16,6 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Lint
     - uses: ricardochaves/python-lint@v1.4.0
       with:
         python-root-list: "main.py"
