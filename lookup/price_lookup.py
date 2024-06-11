@@ -13,9 +13,8 @@ def game_title(g_title):
     encode_url = urllib.parse.quote(g_title)
     url = os.getenv("PRICE_LOOKUP_URL") + encode_url
 
-    web_url = urllib.request.urlopen(url)
-
-    data = web_url.read().decode("utf-8")
+    with urllib.request.urlopen(url) as web_url:
+        data = web_url.read().decode("utf-8")
 
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(data, 'html.parser')
