@@ -220,13 +220,13 @@ def update_games(api_url):
     games_obj_in_db = requests.get(api_url)
     games = games_obj_in_db.json()
 
-    logger.info('Game that needs update: ',str(len(games)))
+    logger.info('games waiting for update: %s', str(len(games)))
     game_count = 1
     # Loop the objects in JSON
     for obj in games:
         game = GameInfo(obj['object_id'])
         object_id = obj['object_id']
-        logger.info('# ',str(game_count),'/',str(len(games)))
+        logger.info('# %s/%s',str(game_count),str(len(games)))
 
         if game.is_valid():
 
