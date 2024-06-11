@@ -1,3 +1,5 @@
+"""Used for syncing game data into Gathering"""
+
 import xmltodict, json, requests, time, logging, re, os
 from dotenv import load_dotenv
 import xml.etree.ElementTree as ET
@@ -5,7 +7,7 @@ from sys import stdout
 from lookup import price_lookup
 
 # Variables
-version = "3.2"
+
 load_dotenv()
 
 # Constants
@@ -22,23 +24,24 @@ logger.addHandler(consoleHandler)
 
 # Log Messages
 logger.info('Script is running')
-logger.info(f'Using version: {version}')
 
-class game_info:
+class GameInfo:
+    """Retrieves information of BGG items and updates them on Gathering"""
     def __init__(self, object_id):
         self.object_id = object_id
         print(os.getenv('BGG_API_URL'))
         print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
         print(str(self.object_id))
-        API_URL = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
-        logger.info(f"Using: {API_URL}")
-        self.response = requests.get(API_URL) # Get information of game through BGG API
+        api_url = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
+        logger.info(f"Using: {api_url}")
+        self.response = requests.get(api_url) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
         self.json_object = json.loads(self.json_object_string) # Convert JSON to LIST
         logger.info(object_id)
 
     def title(self):
+        """Retrieves the title of the object id"""
         title_object = self.json_object['boardgames']['boardgame']['name']
 
         for obj in title_object:
@@ -54,6 +57,7 @@ class game_info:
         return title
 
     def expansion(self):
+        """Retrieves the expansion of the object id"""
         # If Expansion for Base-game in categories, then expansion update
         if 'boardgamecategory' in  self.json_object['boardgames']['boardgame']:
             category_object = self.json_object['boardgames']['boardgame']['boardgamecategory']
@@ -76,7 +80,7 @@ class game_info:
         return 0
 
     def category(self):
-        # Sets the category
+        """Retrieves the category of the object id"""
         category = ""
         if 'boardgamecategory' in  self.json_object['boardgames']['boardgame']:
             category_object = self.json_object['boardgames']['boardgame']['boardgamecategory']
@@ -90,7 +94,7 @@ class game_info:
             return " "
 
     def mechanic(self):
-        # Sets the mechanic
+        """Retrieves the mechanic of the object id"""
         mechanic = ""
         if 'boardgamemechanic' in  self.json_object['boardgames']['boardgame']:
             mechanic_object = self.json_object['boardgames']['boardgame']['boardgamemechanic']
@@ -104,47 +108,54 @@ class game_info:
             return " "
 
     def bgg_rating(self):
-        # Sets Rank
+        """Retrieves the rank of the object id"""
         return round(int(float(self.json_object['boardgames']['boardgame']['statistics']['ratings']['average'])))
 
     def bgg_rank_voters(self):
-        # Voters
+        """Retrieves the ratings of the object id"""
         return int(float(self.json_object['boardgames']['boardgame']['statistics']['ratings']['usersrated']))
 
     def year_published(self):
+        """Retrieves the year published of the object id"""
         if self.json_object['boardgames']['boardgame']['yearpublished'] is not None:
             return int(self.json_object['boardgames']['boardgame']['yearpublished'])
         else:
             return 0
-    
+
     def minplayers(self):
+        """Retrieves the minimum players of the object id"""
         if self.json_object['boardgames']['boardgame']['minplayers'] is not None:
             return int(self.json_object['boardgames']['boardgame']['minplayers'])
         else:
             return 0
-        
+
     def maxplayers(self):
+        """Retrieves the maximum players of the object id"""
         if self.json_object['boardgames']['boardgame']['maxplayers'] is not None:
             return int(self.json_object['boardgames']['boardgame']['maxplayers'])
         else:
             return 0
-        
+
     def playtime(self):
+        """Retrieves the total playtime of the object id"""
         if self.json_object['boardgames']['boardgame']['playingtime'] is not None:
             return int(self.json_object['boardgames']['boardgame']['playingtime'])
         else:
             return 0
-        
+
     def age(self):
+        """Retrieves the suitable age of the object id"""
         if self.json_object['boardgames']['boardgame']['age'] is not None:
             return int(self.json_object['boardgames']['boardgame']['age'])
         else:
             return 0
-        
+
     def description(self):
+        """Retrieves the description of the object id"""
         return self.json_object['boardgames']['boardgame']['description']
 
     def image(self):
+        """Retrieves the image_ url of the object id"""
         if 'image' in self.json_object['boardgames']['boardgame']:
             image = self.json_object['boardgames']['boardgame']['image']
         else:
@@ -152,6 +163,7 @@ class game_info:
         return image
 
     def thumbnail(self):
+        """Retrieves the thumbnail of the object id"""
         if 'thumbnail' in  self.json_object['boardgames']['boardgame']:
             thumbnail = self.json_object['boardgames']['boardgame']['thumbnail']
         else:
@@ -159,7 +171,7 @@ class game_info:
         return thumbnail
 
     def preferred_players(self):
-
+        """Retrieves the calculated best choice of players for the object id"""
         url = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+'/'+str(self.object_id)
 
         response = requests.get(url)
@@ -193,18 +205,18 @@ class game_info:
                     best_numplayers = numplayers
 
         return int(best_numplayers)
-    
+
     def is_valid(self):
+        """Decides if the object id is valid or not"""
         try:
             if self.json_object['boardgames']['boardgame']['error']:
                 return False
             return True
         except:
             return True
-        
 
 def update_games(api_url):
-    # Set headers for post
+    """Updates the games on the remote side"""
     headers = {"Content-Type": "application/json"}
 
     # Fetch games to update
@@ -215,7 +227,7 @@ def update_games(api_url):
     game_count = 1
     # Loop the objects in JSON
     for obj in games:
-        game = game_info(obj['object_id'])
+        game = GameInfo(obj['object_id'])
         object_id = obj['object_id']
         logger.info('# '+str(game_count)+'/'+ str(len(games)))
 
@@ -246,7 +258,7 @@ def update_games(api_url):
             try:
                 url = os.getenv('GATHERING_API_URL')+"/"+object_id
                 response = requests.put(url,data=json.dumps(gameJson), headers=headers,timeout=5)
-                if(response.status_code == 200):
+                if response.status_code == 200:
                     logger.info(game.title() + ' successfully updated')
                 else:
                     logger.error(game.title() + ' failed to update. status_code: '+str(response.status_code))
@@ -258,9 +270,8 @@ def update_games(api_url):
                 logger.error(errt)
             except requests.exceptions.RequestException as err:
                 logger.error(err)
-            
-            # Wait in order to not overuse the API
-            time.sleep(2)
+
+            time.sleep(2) # Wait in order to not overuse the API
 
         else:
             logger.info('No data from current game - Skipping')
