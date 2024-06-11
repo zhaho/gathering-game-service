@@ -6,11 +6,8 @@ COPY requirements.txt .
 RUN pip install xmltodict
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install pylint
 RUN pip install pylint
 
-# Copy the rest of the application code
 COPY . .
 
-# Define the entrypoint command to run pylint
 ENTRYPOINT ["pylint", "--max-line-length=140","--fail-under=8"]
