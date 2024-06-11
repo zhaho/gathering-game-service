@@ -13,4 +13,4 @@ RUN pip install pylint
 COPY . .
 
 # Define the entrypoint command to run pylint
-ENTRYPOINT ["pylint", "--max-line-length=140 --fail-under=8"]
+ENTRYPOINT ["pylint", "--max-line-length=140","--fail-under=8"]
