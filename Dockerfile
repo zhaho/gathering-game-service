@@ -1,4 +1,5 @@
-FROM python:3.9.19
+FROM ubuntu:20.04
+RUN apt-get update && apt-get install -y python3.9 python3.9-dev
 
 # Accept build arguments
 ARG BGG_API_URL
