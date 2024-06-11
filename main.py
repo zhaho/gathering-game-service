@@ -1,13 +1,17 @@
 """Used for syncing game data into Gathering"""
 
-import xmltodict, json, requests, time, logging, re, os
-from dotenv import load_dotenv
 import xml.etree.ElementTree as ET
-from sys import stdout
+import xmltodict
+import json
+import requests
+import time
+import logging
+import re
+import os
+from dotenv import load_dotenv
 from lookup import price_lookup
 
 # Variables
-
 load_dotenv()
 
 # Constants
@@ -90,8 +94,7 @@ class GameInfo:
                 except:
                     category = self.json_object['boardgames']['boardgame']['boardgamecategory']['#text']
             return str(category.strip(', '))
-        else:
-            return " "
+        return " "
 
     def mechanic(self):
         """Retrieves the mechanic of the object id"""
@@ -104,8 +107,7 @@ class GameInfo:
                 except:
                     mechanic = self.json_object['boardgames']['boardgame']['boardgamemechanic']['#text']
             return str(mechanic.strip(', '))
-        else:
-            return " "
+        return " "
 
     def bgg_rating(self):
         """Retrieves the rank of the object id"""
@@ -119,36 +121,31 @@ class GameInfo:
         """Retrieves the year published of the object id"""
         if self.json_object['boardgames']['boardgame']['yearpublished'] is not None:
             return int(self.json_object['boardgames']['boardgame']['yearpublished'])
-        else:
-            return 0
+        return 0
 
     def minplayers(self):
         """Retrieves the minimum players of the object id"""
         if self.json_object['boardgames']['boardgame']['minplayers'] is not None:
             return int(self.json_object['boardgames']['boardgame']['minplayers'])
-        else:
-            return 0
+        return 0
 
     def maxplayers(self):
         """Retrieves the maximum players of the object id"""
         if self.json_object['boardgames']['boardgame']['maxplayers'] is not None:
             return int(self.json_object['boardgames']['boardgame']['maxplayers'])
-        else:
-            return 0
+        return 0
 
     def playtime(self):
         """Retrieves the total playtime of the object id"""
         if self.json_object['boardgames']['boardgame']['playingtime'] is not None:
             return int(self.json_object['boardgames']['boardgame']['playingtime'])
-        else:
-            return 0
+        return 0
 
     def age(self):
         """Retrieves the suitable age of the object id"""
         if self.json_object['boardgames']['boardgame']['age'] is not None:
             return int(self.json_object['boardgames']['boardgame']['age'])
-        else:
-            return 0
+        return 0
 
     def description(self):
         """Retrieves the description of the object id"""
@@ -178,14 +175,14 @@ class GameInfo:
         root = ET.fromstring(response.content)
 
         best_numplayers = 0
-        highest_value = 0    
+        highest_value = 0
         for item in root.findall('./boardgame/poll[@name="suggested_numplayers"]/results'):
             numplayers = re.sub("[^0-9]", "", item.attrib['numplayers'])
             try:
                 best = int(item.find('./result[@value="Best"]').attrib['numvotes'])
             except:
                 best = 0
-            
+
             if best > highest_value:
                 highest_value = best
                 best_numplayers = numplayers
@@ -234,7 +231,7 @@ def update_games(api_url):
         if game.is_valid():
 
             # Prepare JSON Payload
-            gameJson = {
+            game_json = {
                     "bgg_rank_voters": game.bgg_rank_voters(),
                     "bgg_rating": game.bgg_rating(),
                     "category": game.category(),
@@ -257,7 +254,7 @@ def update_games(api_url):
 
             try:
                 url = os.getenv('GATHERING_API_URL')+"/"+object_id
-                response = requests.put(url,data=json.dumps(gameJson), headers=headers,timeout=5)
+                response = requests.put(url,data=json.dumps(game_json), headers=headers,timeout=5)
                 if response.status_code == 200:
                     logger.info(game.title() + ' successfully updated')
                 else:
@@ -276,7 +273,7 @@ def update_games(api_url):
         else:
             logger.info('No data from current game - Skipping')
 
-        game_count += 1    
+        game_count += 1
 
     if len(str(games)) > 2:
         logger.info('Successfully updated games')
