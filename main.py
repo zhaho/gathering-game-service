@@ -1,13 +1,13 @@
 """Used for syncing game data into Gathering"""
 
 import xml.etree.ElementTree as ET
-import xmltodict
 import json
-import requests
 import time
 import logging
 import re
 import os
+import xmltodict
+import requests
 from dotenv import load_dotenv
 from lookup import price_lookup
 

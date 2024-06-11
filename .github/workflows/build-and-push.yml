@@ -34,3 +34,20 @@ jobs:
           --build-arg LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} \
           -t ghcr.io/${{ github.repository_owner }}/gathering-game-service:main .
         docker push ghcr.io/${{ github.repository_owner }}/gathering-game-service:main
+
+    - name: Lint
+    - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "main.py"
+          use-pylint: true
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: false
+          use-mypy: false
+          use-isort: false
+          extra-pylint-options: "--max-line-length=140"
+          extra-pycodestyle-options: ""
+          extra-flake8-options: ""
+          extra-black-options: ""
+          extra-mypy-options: ""
+          extra-isort-options: ""
