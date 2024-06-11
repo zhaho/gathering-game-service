@@ -26,4 +26,4 @@ jobs:
         
       - name: Run tests with pytest
         run: |
-          pytest test/ -vvv
+          pytest tests/ -vvv
