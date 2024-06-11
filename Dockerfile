@@ -1,4 +1,4 @@
-FROM python:3.9.19-alpine3.20
+FROM python:3.9.19
 
 # Accept build arguments
 ARG BGG_API_URL
