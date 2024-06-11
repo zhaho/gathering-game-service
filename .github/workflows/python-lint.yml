@@ -11,5 +11,4 @@ jobs:
     steps:
       - uses: advanced-security/python-lint-code-scanning-action@v1
         with:
-          linter: ruff
-          ruff-version: "0.0.257"
+          linter: pylint
