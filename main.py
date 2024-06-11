@@ -15,7 +15,7 @@ from lookup import price_lookup
 load_dotenv()
 
 # Constants
-LOG_FORMAT = ",(name)-12s ,(asctime)s ,(levelname)-8s ,(filename)s:,(funcName)s ,(message)s"
+LOG_FORMAT = "%(name)-12s %(asctime)s %(levelname)-8s %(filename)s:%(funcName)s %(message)s"
 
 # Setup Logging
 logger = logging.getLogger()
@@ -37,7 +37,7 @@ class GameInfo:
         print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
         print(str(self.object_id))
         api_url = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
-        logger.info(f"Using: {api_url}")
+        logger.info("using:",api_url)
         self.response = requests.get(api_url) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
@@ -220,13 +220,13 @@ def update_games(api_url):
     games_obj_in_db = requests.get(api_url)
     games = games_obj_in_db.json()
 
-    logger.info('Game that needs update: '+ str(len(games)))
+    logger.info('Game that needs update: ',str(len(games)))
     game_count = 1
     # Loop the objects in JSON
     for obj in games:
         game = GameInfo(obj['object_id'])
         object_id = obj['object_id']
-        logger.info('# '+str(game_count)+'/'+ str(len(games)))
+        logger.info('# ',str(game_count),'/',str(len(games)))
 
         if game.is_valid():
 
@@ -256,9 +256,9 @@ def update_games(api_url):
                 url = os.getenv('GATHERING_API_URL')+"/"+object_id
                 response = requests.put(url,data=json.dumps(game_json), headers=headers,timeout=5)
                 if response.status_code == 200:
-                    logger.info(game.title() + ' successfully updated')
+                    logger.info(game.title() ,' successfully updated')
                 else:
-                    logger.error(game.title() + ' failed to update. status_code: '+str(response.status_code))
+                    logger.error(game.title() ,' failed to update. status_code: ',str(response.status_code))
             except requests.exceptions.HTTPError as errh:
                 logger.error(errh)
             except requests.exceptions.ConnectionError as errc:
