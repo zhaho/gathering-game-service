@@ -6,9 +6,22 @@ on:
       - main
 
 jobs:
-  lint:
+  Linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: advanced-security/python-lint-code-scanning-action@v1
+      - uses: actions/checkout@v4
+      - uses: ricardochaves/python-lint@v1.4.0
         with:
-          linter: pylint
+          python-root-list: "python_alelo tests"
+          use-pylint: false
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: false
+          use-mypy: false
+          use-isort: false
+          extra-pylint-options: ""
+          extra-pycodestyle-options: ""
+          extra-flake8-options: ""
+          extra-black-options: ""
+          extra-mypy-options: ""
+          extra-isort-options: ""
