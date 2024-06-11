@@ -1,19 +1,23 @@
-import urllib, os
+""" Module for checking prices of a game object """
+
+import urllib
+import os
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def game_title(game_title):
+    """ Function for retrieving price based on game title """
     title_found = False
     encode_url = urllib.parse.quote(game_title)
     url = os.getenv("PRICE_LOOKUP_URL")+encode_url
 
     # retrieving data from URL
-    webUrl = urllib.request.urlopen(url)
+    web_url = urllib.request.urlopen(url)
 
     # print data from URL
-    data = webUrl.read().decode("utf-8")
+    data = web_url.read().decode("utf-8")
 
     # Parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(data, 'html.parser')
@@ -26,14 +30,14 @@ def game_title(game_title):
             title = title_element.find('a').text.strip()
             if title == game_title:
                 title_found = True
-    
-    if title_found: 
+
+    if title_found:
         item_div = soup.find('div', class_='searchcell bestprice multibestprice')
         if item_div:
             price_element = item_div.find('span', class_='price')
             if price_element:
                 price = price_element.text.strip()[4:]
-                
+
                 # Split the price by comma
                 price_parts = price.split(',')
                 price = ''.join(price_parts[:1])
@@ -41,7 +45,7 @@ def game_title(game_title):
                 # Split the price string by dots
                 price_parts = price.split('.')
                 price = ''.join(price_parts[:2])
-                
+
                 return int(price)
 
     return None
