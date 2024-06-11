@@ -37,7 +37,7 @@ class GameInfo:
         print(os.getenv('BGG_API_ENDPOINT_BOARDGAME'))
         print(str(self.object_id))
         api_url = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
-        logger.info("using:",api_url)
+        logger.info("using: {}".format(api_url))
         self.response = requests.get(api_url) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
