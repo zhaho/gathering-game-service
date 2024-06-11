@@ -15,7 +15,7 @@ from lookup import price_lookup
 load_dotenv()
 
 # Constants
-LOG_FORMAT = "%(name)-12s %(asctime)s %(levelname)-8s %(filename)s:%(funcName)s %(message)s"
+LOG_FORMAT = ",(name)-12s ,(asctime)s ,(levelname)-8s ,(filename)s:,(funcName)s ,(message)s"
 
 # Setup Logging
 logger = logging.getLogger()
