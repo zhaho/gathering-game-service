@@ -14,7 +14,16 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build Docker image for pytest
-      run: docker build -f Dockerfile.pytest -t pytest-container .
+      run: | 
+        docker build \
+          --build-arg BGG_API_URL=${{ secrets.BGG_API_URL }} \
+          --build-arg BGG_API_ENDPOINT_BOARDGAME=${{ secrets.BGG_API_ENDPOINT_BOARDGAME }} \
+          --build-arg GATHERING_API_URL=${{ secrets.GATHERING_API_URL }} \
+          --build-arg GATHERING_API_URL_NODATA=${{ secrets.GATHERING_API_URL_NODATA }} \
+          --build-arg PRICE_LOOKUP_URL=${{ secrets.PRICE_LOOKUP_URL }} \
+          --build-arg LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} \
+          -t ghcr.io/${{ github.repository_owner }}/gathering-game-service:main . \
+          -f Dockerfile.pytest -t pytest-container .
 
     - name: Run pytest inside container with arguments
       run: docker run pytest-container /app/tests -vvv
