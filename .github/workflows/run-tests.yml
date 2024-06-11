@@ -1,4 +1,4 @@
-name: Verify Functionality
+name: Run Tests
 
 on:
   push:

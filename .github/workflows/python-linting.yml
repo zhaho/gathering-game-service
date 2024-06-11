@@ -1,4 +1,4 @@
-name: Lint
+name: Python Linting
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  lint:
+  python-linting:
     runs-on: ubuntu-latest
 
     steps:

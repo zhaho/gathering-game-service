@@ -38,7 +38,7 @@ class GameInfo:
         print(str(self.object_id))
         api_url = os.getenv('BGG_API_URL') + os.getenv('BGG_API_ENDPOINT_BOARDGAME') +  "/" + str(self.object_id) + "?stats=1"
         logger.info("using: %s", api_url)
-        self.response = requests.get(api_url) # Get information of game through BGG API
+        self.response = requests.get(api_url, timeout=3) # Get information of game through BGG API
         self.dictionary = xmltodict.parse(self.response.content) # Parse the XML to Dict
         self.json_object_string = json.dumps(self.dictionary) # Convert to String
         self.json_object = json.loads(self.json_object_string) # Convert JSON to LIST
@@ -171,7 +171,7 @@ class GameInfo:
         """Retrieves the calculated best choice of players for the object id"""
         url = os.getenv('BGG_API_URL')+os.getenv('BGG_API_ENDPOINT_BOARDGAME')+'/'+str(self.object_id)
 
-        response = requests.get(url)
+        response = requests.get(url, timeout=3)
         root = ET.fromstring(response.content)
 
         best_numplayers = 0
@@ -217,7 +217,7 @@ def update_games(api_url):
     headers = {"Content-Type": "application/json"}
 
     # Fetch games to update
-    games_obj_in_db = requests.get(api_url)
+    games_obj_in_db = requests.get(api_url, timeout=3)
     games = games_obj_in_db.json()
 
     logger.info('games waiting for update: %s', str(len(games)))
