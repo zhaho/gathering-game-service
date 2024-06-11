@@ -1,0 +1,20 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image for pylint
+      run: docker build -f Dockerfile.pylint -t pylint-container .
+
+    - name: Run pylint inside container
+      run: docker run pylint-container /app/**/*.py
