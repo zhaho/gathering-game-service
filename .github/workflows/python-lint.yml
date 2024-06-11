@@ -1,0 +1,19 @@
+name: Python Linting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+    steps:
+      - uses: advanced-security/python-lint-code-scanning-action@v1
+        with:
+          linter: pylint
+          python-version: ${{ matrix.python-version }}
