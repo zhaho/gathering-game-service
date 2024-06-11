@@ -9,7 +9,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - use: advanced-security/python-lint-code-scanning-action@v1
+      - uses: advanced-security/python-lint-code-scanning-action@v1
         with:
           linter: ruff
           ruff-version: "0.0.257"
