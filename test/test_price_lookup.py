@@ -1,3 +1,4 @@
+"""Test to see if price_lookup module works as intended"""
 from lookup import price_lookup
 
 GAME = "Las Navas de Tolosa, 1212"
