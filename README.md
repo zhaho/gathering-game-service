@@ -1,5 +1,5 @@
 # Gathering Game Service
-This service keeps all the games within Gathering updated with game data.
+This service keeps all the game objects within Gathering updated with game data.
 
 # Prerequisites
 * docker
