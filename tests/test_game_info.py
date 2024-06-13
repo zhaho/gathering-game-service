@@ -1,7 +1,7 @@
 """Test to see if GameInfo script works as intended"""
 from main import GameInfo
 
-game_ids = ["288841", "116954", "313476"]
+game_ids = ["150376", "116954", "313476"]
 
 for game_id in game_ids:
     game = GameInfo(game_id)
