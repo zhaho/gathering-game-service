@@ -1,4 +1,5 @@
 """Test to see if GameInfo script works as intended"""
+import pytest
 from main import GameInfo
 
 game_ids = ["150376", "116954", "313476"]
