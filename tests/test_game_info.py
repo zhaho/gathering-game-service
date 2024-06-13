@@ -3,6 +3,7 @@ import pytest
 from main import GameInfo
 
 @pytest.fixture(params=["150376", "116954", "313476"])
+
 def game(request):
     game_id = request.param
     game = GameInfo(game_id)
@@ -51,11 +52,11 @@ def test_expansion(game):
     game, game_id = game
     assert isinstance(game.expansion(), int), f"Game {game_id} expansion is not an integer"
 
-for game_id in game_ids:
-    # Run tests for the current game
-    test_valid(game, game_id)
-    test_titles(game, game_id)
-    test_categories(game, game_id)
-    test_mechanics(game, game_id)
-    test_bgg_rating(game, game_id)
-    test_expansion(game, game_id)
+
+# Run tests for the current game
+test_valid(game, game_id)
+test_titles(game, game_id)
+test_categories(game, game_id)
+test_mechanics(game, game_id)
+test_bgg_rating(game, game_id)
+test_expansion(game, game_id)
