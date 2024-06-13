@@ -1,7 +1,7 @@
 """Test to see if GameInfo script works as intended"""
 from main import GameInfo
 
-game_ids = ["288841", "116954", "313476"]
+game_ids = ["150376", "116954", "313476"]
 
 def test_valid(game, game_id):
     """Test to see if a game is stated as valid"""
