@@ -52,11 +52,3 @@ def test_expansion(game):
     game, game_id = game
     assert isinstance(game.expansion(), int), f"Game {game_id} expansion is not an integer"
 
-
-# Run tests for the current game
-test_valid(game, game_id)
-test_titles(game, game_id)
-test_categories(game, game_id)
-test_mechanics(game, game_id)
-test_bgg_rating(game, game_id)
-test_expansion(game, game_id)
