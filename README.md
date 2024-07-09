@@ -1,4 +1,4 @@
-# Gathering Game Service
+# Gathering Game Service 1.0
 This service keeps all the game objects updated within Gathering.
 
 # Prerequisites
