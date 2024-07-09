@@ -49,4 +49,4 @@ jobs:
           --build-arg PRICE_LOOKUP_URL=${{ secrets.PRICE_LOOKUP_URL }} \
           --build-arg LOG_DESTINATION=${{ secrets.LOG_DESTINATION }} \
           -t ghcr.io/${{ github.repository_owner }}/gathering-game-service:main .
-        docker push ghcr.io/${{ github.repository_owner }}/gathering-game-service:v1
+        docker push ghcr.io/${{ github.repository_owner }}/gathering-game-service:1.0.0
